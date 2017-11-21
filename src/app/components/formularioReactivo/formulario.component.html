@@ -1,0 +1,83 @@
+<div class="container">
+
+  <h1>Ejemplo formulario</h1>
+
+  <form [formGroup]="heroForm" #form="ngForm" (ngSubmit)="onSubmit(form.value)">
+
+    <div [hidden]="form.submitted">
+
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input formControlName="name" id="name" class="form-control">
+
+        <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
+
+          <div *ngIf="name.errors.required">
+            Name is required.
+          </div>
+          <div *ngIf="name.errors.minlength">
+            Name must be at least 4 characters long.
+          </div>
+          <div *ngIf="name.errors.forbiddenName">
+            Name cannot be Bob.
+          </div>
+
+        </div>
+      </div>
+
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input id="email" class="form-control" formControlName="email" email>
+
+        <div *ngIf="email.invalid && email.touched" class="alert alert-danger">
+          <div *ngIf="email.errors.email">
+            El email es requerido
+          </div>
+        </div>
+      </div>
+
+
+      <div class="form-group">
+        <label for="alterEgo">Alter Ego</label>
+        <input id="alterEgo" formControlName="alterEgo" class="form-control">
+
+        <div *ngIf="alterEgo.invalid && (alterEgo.dirty || alterEgo.touched)" class="alert alert-danger" required>
+          <div *ngIf="alterEgo.errors.required">
+            Name is required.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="power">Hero Power</label>
+        <select formControlName="power" id="power" class="form-control" required>
+          <option *ngFor="let p of powers" [value]="p">{{p}}</option>
+        </select>
+
+        <div *ngIf="power.errors && power.touched" class="alert alert-danger">
+          <div *ngIf="power.errors.required">Power is required.</div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-default" [disabled]="heroForm.invalid">Submit</button>
+      <button type="button" class="btn btn-default" (click)="form.resetForm({})">Reset</button>
+    </div>
+
+    <div class="submitted-message" *ngIf="form.submitted">
+      <p>You've submitted your hero, {{ form.value | json }}!</p>
+      <p>You've submitted your hero, {{ heroForm.value | json }}!</p>
+      <button class="btn btn-primary" (click)="form.resetForm({})">Add new hero</button>
+    </div>
+  </form>
+
+  <pre>
+  </pre>
+</div>
+
+
+<!-- 
+Copyright 2017 Google Inc. All Rights Reserved.
+Use of this source code is governed by an MIT-style license that
+can be found in the LICENSE file at http://angular.io/license
+-->
